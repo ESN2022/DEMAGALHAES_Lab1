@@ -142,7 +142,7 @@ ACDS_VERSION := 18.1
 ELF := main.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS += chenillard_boutton.c
+C_SRCS += chenillard_final.c
 CXX_SRCS :=
 ASM_SRCS :=
 

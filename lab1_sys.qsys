@@ -168,7 +168,7 @@
   <parameter name="ecc_enabled" value="false" />
   <parameter name="enPRInitMode" value="false" />
   <parameter name="enableDiffWidth" value="false" />
-  <parameter name="initMemContent" value="true" />
+  <parameter name="initMemContent" value="false" />
   <parameter name="initializationFileName">M:/ESN11/DEMAGALHAES_Lab1/software/app/mem_init/lab1_sys_RAM.hex</parameter>
   <parameter name="instanceID" value="NONE" />
   <parameter name="memorySize" value="40960" />
@@ -179,7 +179,7 @@
   <parameter name="singleClockOperation" value="false" />
   <parameter name="slave1Latency" value="1" />
   <parameter name="slave2Latency" value="1" />
-  <parameter name="useNonDefaultInitFile" value="true" />
+  <parameter name="useNonDefaultInitFile" value="false" />
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
@@ -306,7 +306,7 @@
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="3" />
+  <parameter name="internalIrqMaskSystemInfo" value="7" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -419,14 +419,14 @@
   <parameter name="userDefinedSettings" value="" />
  </module>
  <module name="switchs" kind="altera_avalon_pio" version="18.1" enabled="1">
-  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitClearingEdgeCapReg" value="true" />
   <parameter name="bitModifyingOutReg" value="false" />
-  <parameter name="captureEdge" value="false" />
+  <parameter name="captureEdge" value="true" />
   <parameter name="clockRate" value="50000000" />
   <parameter name="direction" value="Input" />
-  <parameter name="edgeType" value="RISING" />
-  <parameter name="generateIRQ" value="false" />
-  <parameter name="irqType" value="LEVEL" />
+  <parameter name="edgeType" value="ANY" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="EDGE" />
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
@@ -532,6 +532,13 @@
    start="nios2_gen2_0.irq"
    end="buttons.irq">
   <parameter name="irqNumber" value="1" />
+ </connection>
+ <connection
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="switchs.irq">
+  <parameter name="irqNumber" value="2" />
  </connection>
  <connection
    kind="reset"
