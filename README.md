@@ -19,17 +19,19 @@ Les élements seront connectés les uns aux autres à travers le bus Avalon et d
 Réalisons maintenant cette architecture sur **Platform Designer** :
 ![image](https://user-images.githubusercontent.com/77203492/211787624-8a138f02-0409-4d70-b56d-855e1f2428e8.png)
 On peut voir les différentes connections entre les élements de notre architecture, à noter les connections importantes :
-* les broches **irq** des *switchs*,*buttons* et *jtag* sont reliées à la broche **irq** du NIOS.
-* On peut noter également les broches **s1** des *switchs*,*buttons* et *leds* qui sont reliées à la broche **data_master** du NIOS (canal de donnée)
-* Dans la configuration des boutons et des switchs, on peut activer les interruptions.
-Dès que l'architecture du système est bien configurer, on peut assigner les addresses et génerer le HDL.
+* les broches **irq** des *switchs*,*buttons* et *jtag* sont reliées à la broche **irq** du NIOS, pour activer les interruptions.
+* On peut noter également les broches **s1** des *switchs*,*buttons* et *leds* qui sont reliées à la broche **data_master** du NIOS (canal de donnée).
+* Dans la configuration des boutons et des switchs, on peut définir comment les interruptions seront détectées, notamment sur les fronts montant/descendant.
+Dès que l'architecture du système est bien configurer, on peut assigner les addresses et génerer le HDL de notre système.
+
 ## Top Level design
 Passons désormais à la description du design VHDL :
 Sur l'image ci-dessous vous pouvez constater le fichier VHDL qui décrit les entrées sorties du système et le mapping sur le descriptif réalisé sur plateform designer.
 ![image](https://user-images.githubusercontent.com/77203492/211788882-e9fb8c02-f705-4f8d-902c-ebbc174964a9.png)
 
 ## Pin Assignement
-Sur les 2 images qui suivent vous retrouverez, l'association entre les entrées sorties et les pin physique du FPGA. On peut voir les différentes spécifications associées à chaque pin, le niveau de tension etc..
+Sur les 2 images qui suivent vous retrouverez, l'association entre les entrées sorties et les pin physique du FPGA.
+On peut voir les différentes spécifications associées à chaque pin, le niveau de tension etc..
 
 ![image](https://user-images.githubusercontent.com/77203492/211789038-0e8fe222-ab16-44d8-8a10-a56bc091b9f2.png)
 ![image](https://user-images.githubusercontent.com/77203492/211788984-3e8c7cf4-0290-4472-b32b-f233fd7b02e2.png)
