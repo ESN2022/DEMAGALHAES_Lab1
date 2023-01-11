@@ -54,6 +54,7 @@ Et la fonction **static void init_button_pio()** permet d'initialiser le bouton 
 
 Ceci réalisé j'ai d'abord commencer par implémenter les switchs par la méthode du Polling comme vu précédemment, pour définir la vitesse du chenillard.
 Pour se faire j'ai utilisé la même fonction que pour le chenillard bouton, pour lire la valeur des switchs.
+
 _N.B._ **Le Switch[9] sert de Switch reset, il reset le programme à l'état bas.**
 
 J'ai donc lors de la lecture des switchs prendre en compte ce Switch [9], dans le programme de la vitesse.
@@ -63,7 +64,7 @@ Pour les vitesses ont peut régler 5 niveaux de vitesses à l'aide des switchs 1
 Ensuite j'ai ajouté un flag stop pour permettre avec l'appui sur le bouton pour démarré le chenillard et par un appui à nouveau pour éteindre le chenillard.
 Sans doute que le programme n'est pas le plus optimisé surtout au niveau de la lecture des switchs et du calcul de la vitesse mais celà est suffisant pour comprendre le fonctionnement des interruptions.
 
-# Resultat
+# Résultat 
 Voici une courte vidéo démontrant le principe de fonctionnement :
 
 # Conclusion 
