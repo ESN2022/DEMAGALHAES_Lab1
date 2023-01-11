@@ -47,7 +47,12 @@ Le chenillard bouton fonctionne selon le principe du polling c'est a dire qu'on 
 Pour mettre en place ce chenillard il suffit simplement d'utiliser la fonction suivante, **IORD_ALTERA_AVALON_PIO_DATA(BUTTONS_BASE)** qui permet de lire la valeur du bouton, ensuite selon cette valeur on démarre le chenillard.
 
 ## Chenillard Final (Interruptions)
-Le chenillard final, pour commencer, j'ai d'abord défini une routine d'interruption pour le bouton, pour être sûr de comprendre le principe et de démarrer le chenillard avec. Ceci réalisé j'ai d'abord commencer par implémenter les switchs par la méthode du Polling comme vu précédemment, pour définir la vitesse du chenillard.
+Le chenillard final, pour commencer, j'ai d'abord défini une routine d'interruption pour le bouton, pour être sûr de comprendre le principe et de démarrer le chenillard avec. 
+La fonction **static void handle_button_interrupts(void* context, alt_u32 id)** permet de définir l'interruption du bouton.
+Et la fonction **static void init_button_pio()** permet d'initialiser le bouton avec son interruption, il est important qu'elles soient définis en static pour que le compilateur ne les optimises pas.
+
+
+Ceci réalisé j'ai d'abord commencer par implémenter les switchs par la méthode du Polling comme vu précédemment, pour définir la vitesse du chenillard.
 Pour se faire j'ai utilisé la même fonction que pour le chenillard bouton, pour lire la valeur des switchs.
 _N.B._ **Le Switch[9] sert de Switch reset, il reset le programme à l'état bas.**
 
