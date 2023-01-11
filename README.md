@@ -57,8 +57,17 @@ Pour se faire j'ai utilisé la même fonction que pour le chenillard bouton, pou
 
 _N.B._ **Le Switch[9] sert de Switch reset, il reset le programme à l'état bas.**
 
-J'ai donc lors de la lecture des switchs prendre en compte ce Switch [9], dans le programme de la vitesse.
-Je réalise un Switch case sur la valeur des switchs en partant de 0x200 (0b10 0000 0000).
+J'ai donc lors de la lecture des switchs du prendre en compte ce Switch[9], dans le programme de la vitesse.
+Je réalise donc un Switch case sur la valeur des switchs en partant de 0x200 (0b10 0000 0000).
+La lecture de faisant ainsi :
+
+* 0b10 0000 0000
+* 0b10 0000 0001
+* 0b10 0000 0010
+* 0b10 0000 0100
+* 0b10 0000 1000
+* 0b10 0001 0000 pour la dernière vitesse.
+
 Pour les vitesses ont peut régler 5 niveaux de vitesses à l'aide des switchs 1 à 5, pour qu'une vitesse soit prise en compte il faut 1 seul Switch à l'état haut à la fois.
 
 Ensuite j'ai ajouté un flag stop pour permettre avec l'appui sur le bouton pour démarré le chenillard et par un appui à nouveau pour éteindre le chenillard.
