@@ -13,7 +13,8 @@ Il sera composé des éléments suivants :
 * JTAG
 
 Les élements seront connectés les uns aux autres à travers le bus Avalon et décriront l'architecture suivante :
-![archESN11_Lab1](https://user-images.githubusercontent.com/77203492/211789225-1ee13f03-ab92-4d16-b33a-704f05b94f45.png)
+![SPRK_default_preset_name_custom – 1](https://user-images.githubusercontent.com/77203492/212548863-949409b8-0408-4952-8b09-1f0e715da83a.png)
+
 
 ## Platform Designer
 Réalisons maintenant cette architecture sur **Platform Designer** :
