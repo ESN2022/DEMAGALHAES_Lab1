@@ -19,11 +19,12 @@ Les élements seront connectés les uns aux autres à travers le bus Avalon et d
 ## Platform Designer
 Réalisons maintenant cette architecture sur **Platform Designer** :
 ![image](https://user-images.githubusercontent.com/77203492/211787624-8a138f02-0409-4d70-b56d-855e1f2428e8.png)
-On peut voir les différentes connections entre les élements de notre architecture, à noter les connections importantes :
-* les broches **irq** des *switchs*,*buttons* et *jtag* sont reliées à la broche **irq** du NIOS, pour activer les interruptions.
-* On peut noter également les broches **s1** des *switchs*,*buttons* et *leds* qui sont reliées à la broche **data_master** du NIOS (canal de donnée).
+On peut voir les différentes connections entre les éléments de notre architecture, à noter les connections importantes :
+
+* Les broches **irq** des switchs,buttons et jtag sont reliées à la broche **irq** du NIOS, pour activer les interruptions.
+* On peut noter également les broches **s1** des *switchs,buttons et leds* qui sont reliées à la broche **data_master** du NIOS (canal de donnée).
 * Dans la configuration des boutons et des switchs, on peut définir comment les interruptions seront détectées, notamment sur les fronts montant/descendant.
-Dès que l'architecture du système est bien configurer, on peut assigner les addresses et génerer le HDL de notre système.
+Dès que l'architecture du système est bien configurée, on peut assigner les addresses et générer le HDL de notre système.
 
 ## Top Level design
 Passons désormais à la description du design VHDL :
@@ -44,23 +45,22 @@ Le chenillard simple comme son nom l'indique, allume automatiquement les LEDs de
 On utilise la fonction **IOWR_ALTERA_AVALON_PIO_DATA(PIO_BASE,DATA)** Pour allumer les LEDs une à une dans une boucle for.
 
 ## Chenillard Bouton (Polling)
-Le chenillard bouton fonctionne selon le principe du polling c'est a dire qu'on va venir interroger continuellement le périphérique pour savoir si le bouton à été pressé où non, c'est sans doute la façon la moins optimiser puisqu'on vient surchargé le processeur pour rien d'où l'intérêt d'utiliser des interruptions qui vont permettre de déclencher le chenillard seulement lorsque le bouton est pressé.
-Pour mettre en place ce chenillard il suffit simplement d'utiliser la fonction suivante, **IORD_ALTERA_AVALON_PIO_DATA(BUTTONS_BASE)** qui permet de lire la valeur du bouton, ensuite selon cette valeur on démarre le chenillard.
+Le chenillard bouton fonctionne selon le principe du polling, c'est à dire qu'on va venir interroger continuellement le périphérique pour savoir si le bouton a été pressé ou non. C'est sans doute la façon la moins optimisée, puisqu'on vient surcharger le processeur pour rien. C'est là qu'intervient l'intérêt d'utiliser des interruptions qui vont permettre de déclencher le chenillard seulement lorsque le bouton est pressé. Pour mettre en place ce chenillard, il suffit simplement d'utiliser la fonction suivante : **IORD_ALTERA_AVALON_PIO_DATA(BUTTONS_BASE)** qui permet de lire la valeur du bouton. Ensuite, selon cette valeur, on démarre le chenillard.
 
 ## Chenillard Final (Interruptions)
-Le chenillard final, pour commencer, j'ai d'abord défini une routine d'interruption pour le bouton, pour être sûr de comprendre le principe et de démarrer le chenillard avec. 
-La fonction **static void handle_button_interrupts(void* context, alt_u32 id)** permet de définir l'interruption du bouton.
-Et la fonction **static void init_button_pio()** permet d'initialiser le bouton avec son interruption, il est important qu'elles soient définis en static pour que le compilateur ne les optimises pas.
+Le chenillard final, pour commencer, j'ai d'abord défini une routine d'interruption pour le bouton, pour être sûr de comprendre le principe et de démarrer le chenillard avec.
+La fonction **static void handle_button_interrupts(void context, alt_u32 id)** permet de définir l'interruption du bouton. Elle est appelée lorsque le bouton est pressé.
+Et la fonction **static void init_button_pio()** permet d'initialiser le bouton avec son interruption. Il est important qu'elles soient définies en static pour que le compilateur ne les optimise pas afin d'être sûr qu'elles sont utilisées comme prévu.
 
 
-Ceci réalisé j'ai d'abord commencer par implémenter les switchs par la méthode du Polling comme vu précédemment, pour définir la vitesse du chenillard.
-Pour se faire j'ai utilisé la même fonction que pour le chenillard bouton, pour lire la valeur des switchs.
+Ceci réalisé, j'ai d'abord commencé par implémenter les switchs par la méthode du polling, comme vu précédemment, pour définir la vitesse du chenillard.
+Pour se faire, j'ai utilisé la même fonction que pour le chenillard bouton, pour lire la valeur des switchs.
 
 _N.B._ **Le Switch[9] sert de Switch reset, il reset le programme à l'état bas.**
 
-J'ai donc lors de la lecture des switchs du prendre en compte ce Switch[9], dans le programme de la vitesse.
+J'ai donc, lors de la lecture des switchs, pris en compte ce Switch[9], dans le programme de la vitesse.
 Je réalise donc un Switch case sur la valeur des switchs en partant de 0x200 (0b10 0000 0000).
-La lecture de faisant ainsi :
+La lecture se faisant ainsi :
 
 * 0b10 0000 0000
 * 0b10 0000 0001
@@ -69,16 +69,16 @@ La lecture de faisant ainsi :
 * 0b10 0000 1000
 * 0b10 0001 0000 pour la dernière vitesse.
 
-Pour les vitesses ont peut régler 5 niveaux de vitesses à l'aide des switchs 1 à 5, pour qu'une vitesse soit prise en compte il faut 1 seul Switch à l'état haut à la fois.
+Pour les vitesses, on peut régler 5 niveaux de vitesses à l'aide des switchs 1 à 5. Pour qu'une vitesse soit prise en compte, il faut qu'un seul switch soit à l'état haut à la fois.
 
-Ensuite j'ai ajouté un flag stop pour permettre avec l'appui sur le bouton pour démarré le chenillard et par un appui à nouveau pour éteindre le chenillard.
-Sans doute que le programme n'est pas le plus optimisé surtout au niveau de la lecture des switchs et du calcul de la vitesse mais celà est suffisant pour comprendre le fonctionnement des interruptions.
+Ensuite, j'ai ajouté un flag stop pour permettre de démarrer le chenillard avec l'appui sur le bouton et de l'éteindre avec un appui à nouveau.
+Le programme n'est peut-être pas le plus optimisé surtout au niveau de la lecture des switchs et du calcul de la vitesse, mais cela suffit pour comprendre le fonctionnement des interruptions.
 
-# Résultat 
-Voici une courte vidéo démontrant le principe de fonctionnement :
+# Résultat
+Voici une courte vidéo démontrant le principe de fonctionnement.
 
 https://user-images.githubusercontent.com/77203492/211807035-a3131f97-3379-4ab3-bd41-5f9093403c06.mp4
 
 
 # Conclusion 
-Dans ce TP, j'ai bien compris le principe et l'intérêt d'utiliser les interruptions, ainsi que l'approche particulière que demandent les FPGA, en définissant d'abord l'architecture **Hardware** puis la partie **Software** et enfin l'aspect **Compilation** sur le shell de nios.
+Dans ce TP, j'ai bien compris le principe et l'intérêt d'utiliser les interruptions, ainsi que l'approche particulière que requièrent les FPGA, en définissant d'abord l'architecture **Hardware** puis la partie **Software** et enfin l'aspect **Compilation** sur le shell de nios. Cela m'a permis de mieux comprendre comment fonctionnent les FPGA et comment les utiliser pour créer des systèmes embarqués efficaces et réactifs.
